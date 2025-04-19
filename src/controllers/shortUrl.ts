@@ -1,4 +1,4 @@
-import { Express } from "express";
+// import { Express } from "express";
 
 import { UrlModel } from "../model/shortUrl";
 
@@ -8,21 +8,15 @@ import { UrlModel } from "../model/shortUrl";
 import { Request, Response } from "express";
 import { url } from "inspector";
 
-interface CreateUrlRequest extends Request {
-    body: {
-        fullUrl: string; // Define the expected fields in the request body
-    };
-}
 
 
 
-
-export const createURL = async (req: CreateUrlRequest, res: Response) => {
+export const createURL = async (req: Request, res: Response) => {
     try {
     console.log("the fullurl is ", req.body.fullUrl);
     const urlFound = await UrlModel.find({ fullUrl: req.body.fullUrl });
     if (urlFound.length > 0) {
-        return res.status(409).json({
+         res.status(409).json({
             message: "URL already exists",
             data: urlFound,
         });
@@ -43,7 +37,8 @@ export const createURL = async (req: CreateUrlRequest, res: Response) => {
 
 
 
-export const getallURL = async (req: CreateUrlRequest, res: Response) => {
+
+export const getallURL = async (req: Request, res: Response) => {
     
  try {
     const allUrls = await UrlModel.find();
@@ -66,7 +61,7 @@ export const getallURL = async (req: CreateUrlRequest, res: Response) => {
 
 
 
-export const getURL = async (req: CreateUrlRequest, res: Response) => {  
+export const getURL = async (req: Request, res: Response) => {  
     try 
     {
         const shortUrl = await UrlModel.findById(req.params.id);
@@ -89,7 +84,7 @@ export const getURL = async (req: CreateUrlRequest, res: Response) => {
 
 }
 
-export const deleteURL = async (req: CreateUrlRequest, res: Response) => {   
+export const deleteURL = async (req: Request, res: Response) => {   
      try 
     {
         const shortUrl = await UrlModel.findById(req.params.id);
@@ -114,3 +109,8 @@ export const deleteURL = async (req: CreateUrlRequest, res: Response) => {
 
 
 
+// mongodb+srv://akshat:akshat@akshatcluster.nbsocfs.mongodb.net/
+
+// mongodb+srv://akshat:%3Cakshat%3E@url-shortner-cluster.tozar57.mongodb.net/
+
+// mongodb+srv://akshat:akshat@url-shortner-cluster.tozar57.mongodb.net/
